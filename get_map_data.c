@@ -6,7 +6,7 @@
 /*   By: ochoumou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2021/12/25 02:51:02 by ochoumou         ###   ########.fr       */
+/*   Updated: 2021/12/26 15:08:28 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ int	ft_get_lines(char *path)
 
 	fd = open(path, O_RDONLY);
 	number_of_lines = 0;
+	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		line = get_next_line(fd);
 		number_of_lines++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (number_of_lines);
@@ -63,8 +64,8 @@ char	**ft_read_data(char *path)
 	int i;
 
 	i = 0;
-	fd = open(path, O_RDONLY);
 	lines = ft_get_lines(path);
+	fd = open(path, O_RDONLY);
 	data = (char **)malloc(sizeof(char *) * (lines + 1));
 	if (!data)
 		return (NULL);
@@ -73,6 +74,7 @@ char	**ft_read_data(char *path)
 		data[i] = get_next_line(fd);
 		i++;
 	}
+	data[i] = NULL;
 	close(fd);
 	return (data);
 }
@@ -89,25 +91,15 @@ int	**ft_create_matrix(char **data, int lines_number)
 	matrix = (int **)malloc(sizeof(int *) * (lines_number + 1));
 	if (!matrix)
 		return (NULL);
-	
-	// line = ft_split(data[0], ' ');
-	// printf("%c", line[0][0]);
-	
-	// while (i < 10)
-	// {
-	// 	printf("%s", line[i]);
-	// 	i++;
-	// }
 	while (i < lines_number - 1)
 	{
-		// printf("%s\n",data[i]);
 		line = ft_split(data[i], ' ');
 		width = ft_count_width(data[i], ' ');
 		matrix[i] = malloc(sizeof(int) * width);
 		j = 0;
 		while (j < width)
 		{
-			matrix[i][j] = ft_atoi(line[i]);
+			matrix[i][j] = ft_atoi(line[j]);
 			j++;
 		}
 		i++;
@@ -123,12 +115,25 @@ int main(void)
 	int lines;
 	int nothing;
 	int i;
+	int j;
+	int width;
 
 	i = 0;
 	path = "test_maps/42.fdf";
 	lines = ft_get_lines(path);
 	words = ft_read_data(path);
 	matrix = ft_create_matrix(words, lines);
-	printf("%d\n",matrix[0][0]);
+	while (i < lines - 1)
+	{
+		j = 0;
+		width = ft_count_width(words[i],' ');
+		while (j < width - 1)
+		{
+			printf("%d ",matrix[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
    	return (0);
 }
