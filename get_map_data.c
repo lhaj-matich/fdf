@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int     ft_count_width(char *str, char sep)
 {
@@ -36,6 +37,20 @@ int     ft_count_width(char *str, char sep)
                 i++;
         }
         return (words_count);
+}
+
+int ft_check(char *str) 
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{	
+		if (str[i] == ',')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	ft_get_lines(char *path)
@@ -62,6 +77,7 @@ char	**ft_read_data(char *path)
 	int lines;
 	int fd;
 	int i;
+	int status;
 
 	i = 0;
 	lines = ft_get_lines(path);
@@ -79,11 +95,10 @@ char	**ft_read_data(char *path)
 	return (data);
 }
 
-int	**ft_create_matrix(char **data, int lines_number)
+int	**ft_create_matrix(char **data, int lines_number, int width)
 {
 	char **line;
 	int **matrix;
-	int width;
 	int i;
 	int j;
 
@@ -94,14 +109,14 @@ int	**ft_create_matrix(char **data, int lines_number)
 	while (i < lines_number - 1)
 	{
 		line = ft_split(data[i], ' ');
-		width = ft_count_width(data[i], ' ');
-		matrix[i] = malloc(sizeof(int) * width);
-		j = 0;
-		while (j < width)
-		{
-			matrix[i][j] = ft_atoi(line[j]);
-			j++;
-		}
+		printf("%s ", line[i]);
+		// matrix[i] = malloc(sizeof(int) * width);
+		// j = 0;
+		// while (j < width)
+		// {
+		// 	matrix[i][j] = atoi(line[j]);
+		// 	j++;
+		// }
 		i++;
 	}
 	return (matrix);
@@ -112,6 +127,7 @@ int main(void)
 	char **words;
 	int	**matrix;
 	char *path;
+	int status;
 	int lines;
 	int nothing;
 	int i;
@@ -119,21 +135,27 @@ int main(void)
 	int width;
 
 	i = 0;
-	path = "test_maps/42.fdf";
+	path = "test_maps/julia.fdf";
 	lines = ft_get_lines(path);
 	words = ft_read_data(path);
-	matrix = ft_create_matrix(words, lines);
-	while (i < lines - 1)
-	{
-		j = 0;
-		width = ft_count_width(words[i],' ');
-		while (j < width - 1)
-		{
-			printf("%d ",matrix[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
+	width = ft_count_width(words[i],' ');
+	matrix = ft_create_matrix(words, lines, width);
+	// while (i < lines - 1)
+	// {
+	// 	j = 0;
+	// 	width = ft_count_width(words[i],' ');
+	// 	while (j < width)
+	// 	{
+	// 		if (matrix[i][j])
+	// 		{
+	// 			 printf("%d ",matrix[i][j]);
+	// 			 j++;
+	// 		}
+	// 		else
+	// 			break;
+	// 	}
+	// 	printf("\n");
+	// 	i++;
+	// }
    	return (0);
 }
