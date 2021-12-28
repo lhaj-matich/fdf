@@ -18,6 +18,43 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+int	ft_convert_hex(char *hex)
+{
+	int i;
+	int value;
+	int length;
+	long long decimal;
+	long long base;
+
+	decimal = 0;
+	base = 1;
+	i = 0;
+
+	length = ft_strlen(hex);
+	i = length - 1;
+	while (i >= 0)
+	{
+		if (hex[i] >= '0' && hex[i] <= '9')
+		{
+			decimal += (hex[i] - 48) * base;
+			base *= 16;
+		}
+		else if (hex[i] >= 'A' && hex[i] <= 'F')
+		{
+			decimal += (hex[i] - 55) * base;
+			base *= 16;
+		}
+		else if (hex[i] >= 'a' && hex[i] <= 'f')
+		{
+			decimal += (hex[i] - 55) * base;
+			base *= 16;
+		}
+		i--;
+	}
+	return (decimal);
+}
+
 int     ft_count_width(char *str, char sep)
 {
         int i;
@@ -95,31 +132,45 @@ char	**ft_read_data(char *path)
 	return (data);
 }
 
-int	**ft_create_matrix(char **data, int lines_number, int width)
+int	**ft_create_matrix(char **data,int lines_number, int width)
 {
 	char **line;
+	char **point_info;
 	int **matrix;
+	int **colors;
 	int i;
 	int j;
 
 	i = 0;
+ 	colors = (int **)malloc(sizeof(int *) * (lines_number + 1));
 	matrix = (int **)malloc(sizeof(int *) * (lines_number + 1));
-	if (!matrix)
+	if (!matrix || !colors)
 		return (NULL);
 	while (i < lines_number - 1)
 	{
+		j = 0;
+		colors[i] = (int *)malloc(sizeof(int) * width);
+		matrix[i] = (int *)malloc(sizeof(int) * width);
 		line = ft_split(data[i], ' ');
-		printf("%s ", line[i]);
-		// matrix[i] = malloc(sizeof(int) * width);
-		// j = 0;
-		// while (j < width)
-		// {
-		// 	matrix[i][j] = atoi(line[j]);
-		// 	j++;
-		// }
+		while (j < width)
+		{
+			if (ft_strlen(line[j]) > 1)
+			{
+				point_info = ft_split(line[j], ',');
+				colors[i][j] = ft_convert_hex(point_info[1]);
+				matrix[i][j] = ft_atoi(point_info[0]);
+			}
+			else
+			{
+				printf("Not a commas");
+				matrix[i][j] = ft_atoi(line[j]);
+				colors[i][j] = 0;
+			}
+			j++;
+		}
 		i++;
 	}
-	return (matrix);
+	return (colors);
 }
 
 int main(void)
@@ -135,7 +186,26 @@ int main(void)
 	int width;
 
 	i = 0;
-	path = "test_maps/julia.fdf";
+
+	// t_point *node;
+	// t_point	*head;
+	// t_point *tmp;
+
+	// head = NULL;
+
+	// while (i < 20)
+	// {
+	// 	node = create_point(i,15 + i);
+	// 	head = insert_point(head, node);
+	// 	i++;
+	// }
+	// while (head != NULL)
+	// {
+	// 	printf("Color: %d\n", head->color);
+	// 	printf("Alltitude: %d\n",head->z);
+	// 	head = head->next;
+	// }
+	path = "test_maps/elem-col.fdf";
 	lines = ft_get_lines(path);
 	words = ft_read_data(path);
 	width = ft_count_width(words[i],' ');
@@ -151,8 +221,6 @@ int main(void)
 	// 			 printf("%d ",matrix[i][j]);
 	// 			 j++;
 	// 		}
-	// 		else
-	// 			break;
 	// 	}
 	// 	printf("\n");
 	// 	i++;
