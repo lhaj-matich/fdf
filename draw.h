@@ -9,6 +9,7 @@ typedef struct	s_data {
 	int		endian;
 }				t_data;
 
-void	ft_draw_line(int x0,  int y0 , int x1, int y1);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	ft_draw_line(t_data *img,int x0,  int y0 , int x1, int y1);
 
 #endif

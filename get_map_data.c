@@ -13,8 +13,10 @@
 #include "get_next_line.h"
 #include "libft.h"
 #include "points.h"
+#include "draw.h"
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <mlx.h>
 #include <stdio.h>
 
 int	ft_convert_hex(char *hex)
@@ -133,6 +135,7 @@ s_point		**ft_read_data(char *path, int lines)
 		while (j < width)
 		{
 			seperation = ft_split(points[j],',');
+			// The line bellow could be used for normination purpuses.
 			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
 			data[i] = append_point(data[i], create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
 			j++;
@@ -145,29 +148,48 @@ s_point		**ft_read_data(char *path, int lines)
 
 int main(void)
 {
+
+	void	*mlx;
+	void	*mlx_win;
+	t_data	img;
 	int lines;
 	char *path;
 	s_point	**matrix;
 	int i;
 	int j;
+	int xp;
+	int yp;
+	int zoom;
 
-
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Fdf");
+	img.img = mlx_new_image(mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+								&img.endian);
 	i = 0;
 	j = 0;
-	path = "test_maps/julia.fdf";
+	zoom = 50;
+	path = "test_maps/42.fdf";
 	lines = ft_get_lines(path);
 	matrix = ft_read_data(path, lines);
 	while (i < lines)
 	{
+		j = 0;
+		xp = i;
 		while (matrix[i] != NULL)
 		{
-			
-			printf("%2d ",matrix[i]->z);
+			// yp = j;
+			ft_draw_line(&img, xp, yp , xp + zoom, yp);
+			ft_draw_line(&img, xp, yp , xp , yp + zoom);
+			// xp = xp + zoom;
+			// yp = yp + zoom;
 			matrix[i] = matrix[i]->next;
+			j++;
 		}
-		printf("\n");
 		i++;
 	}
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	mlx_loop(mlx);
 }
 
 
