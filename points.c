@@ -1,6 +1,6 @@
-#include "fdf.h"
+#include "points.h"
 
-s_point *create_point(int color, int alltitude) 
+s_point *create_point(int alltitude , int color) 
 {
     s_point *point;
 

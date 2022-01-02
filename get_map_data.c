@@ -15,7 +15,7 @@
 #include "points.h"
 #include <sys/stat.h>
 #include <fcntl.h>
-
+#include <stdio.h>
 
 int	ft_convert_hex(char *hex)
 {
@@ -29,6 +29,8 @@ int	ft_convert_hex(char *hex)
 	base = 1;
 	i = 0;
 
+	if (!hex)
+		return (0);
 	length = ft_strlen(hex);
 	i = length - 1;
 	while (i >= 0)
@@ -74,6 +76,20 @@ int     ft_get_width(char *str, char sep)
         return (words_count);
 }
 
+int	ft_check(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == ',')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_get_lines(char *path)
 {
 	char *line;
@@ -95,72 +111,115 @@ int	ft_get_lines(char *path)
 s_point		**ft_read_data(char *path, int lines)
 {
 	s_point **data;
-	s_point *tmp;
+	s_point *node;
+	char	**points;
+	char	**seperation;
 	char	*line;
-	char	**splited;
+	int width;
 	int fd;
 	int i;
+	int j;
 
 	i = 0;
 	fd = open(path, O_RDONLY);
-	data = (s_point **)malloc(sizeof(s_point *) * (lines + 1))
+	data = (s_point **)malloc(sizeof(s_point *) * (lines + 1));
 	while (i < lines)
 	{
+		j = 0;
+		data[i] = NULL;
 		line = get_next_line(fd);
-		splited = ft_split(line, ' ');
-		data[i] = append_point(data[i], create_point())
+		width = ft_get_width(line, ' ');
+		points = ft_split(line, ' ');
+		while (j < width)
+		{
+			seperation = ft_split(points[j],',');
+			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
+			data[i] = append_point(data[i], create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
+			j++;
+		}
+		i++;
 	}
 	close(fd);
 	return (data);
 }
 
-void	ft_read(void)
+int main(void)
 {
-	char	*path;
-	int		lines;
-	t_fdf *data;
-
-	path = "/test_maps";
-	lines = ft_get_lines(path);
-}
-
-
-int	**ft_create_matrix(char **data,int lines_number, int width)
-{
-	char **line;
-	char **point_info;
-	int **matrix;
-	int **colors;
+	int lines;
+	char *path;
+	s_point	**matrix;
 	int i;
 	int j;
 
+
 	i = 0;
- 	colors = (int **)malloc(sizeof(int *) * (lines_number + 1));
-	matrix = (int **)malloc(sizeof(int *) * (lines_number + 1));
-	if (!matrix || !colors)
-		return (NULL);
-	while (i < lines_number - 1)
+	j = 0;
+	path = "test_maps/julia.fdf";
+	lines = ft_get_lines(path);
+	matrix = ft_read_data(path, lines);
+	while (i < lines)
 	{
-		j = 0;
-		colors[i] = (int *)malloc(sizeof(int) * width);
-		matrix[i] = (int *)malloc(sizeof(int) * width);
-		line = ft_split(data[i], ' ');
-		while (j < width)
+		while (matrix[i] != NULL)
 		{
-			if (ft_check(line[j]))
-			{
-				point_info = ft_split(line[j], ',');
-				matrix[i][j] = ft_atoi(point_info[0]);
-				colors[i][j] = ft_convert_hex(point_info[1]);
-			}
-			else
-			{
-				matrix[i][j] = ft_atoi(line[j]);
-				colors[i][j] = 0;
-			}
-			j++;
+			
+			printf("%2d ",matrix[i]->z);
+			matrix[i] = matrix[i]->next;
 		}
+		printf("\n");
 		i++;
 	}
-	return (colors);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// This is just a bunch of dead code.
+// int	**ft_create_matrix(char **data,int lines_number, int width)
+// {
+// 	char **line;
+// 	char **point_info;
+// 	int **matrix;
+// 	int **colors;
+// 	int i;
+// 	int j;
+
+// 	i = 0;
+//  	colors = (int **)malloc(sizeof(int *) * (lines_number + 1));
+// 	matrix = (int **)malloc(sizeof(int *) * (lines_number + 1));
+// 	if (!matrix || !colors)
+// 		return (NULL);
+// 	while (i < lines_number - 1)
+// 	{
+// 		j = 0;
+// 		colors[i] = (int *)malloc(sizeof(int) * width);
+// 		matrix[i] = (int *)malloc(sizeof(int) * width);
+// 		line = ft_split(data[i], ' ');
+// 		while (j < width)
+// 		{
+// 			if (ft_check(line[j]))
+// 			{
+// 				point_info = ft_split(line[j], ',');
+// 				matrix[i][j] = ft_atoi(point_info[0]);
+// 				colors[i][j] = ft_convert_hex(point_info[1]);
+// 			}
+// 			else
+// 			{
+// 				matrix[i][j] = ft_atoi(line[j]);
+// 				colors[i][j] = 0;
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (colors);
+// }
