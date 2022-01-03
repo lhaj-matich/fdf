@@ -3,14 +3,14 @@
 
 #include <stdlib.h>
 
-typedef struct point {
+typedef struct s_point {
     int color;
     int z;
-    struct point *next;
-} s_point;
+    struct s_point *next;
+} t_point;
 
-s_point *create_point(int color, int alltitude);
-s_point *last_point(s_point *lst);
-s_point *append_point(s_point *head, s_point *point);
+t_point *create_point(int color, int alltitude);
+t_point *last_point(t_point *lst);
+t_point *append_point(t_point *head, t_point *point);
 
 #endif

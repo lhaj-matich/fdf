@@ -10,6 +10,7 @@ typedef struct	s_data {
 }				t_data;
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	ft_draw_line(t_data *img,int x0,  int y0 , int x1, int y1);
+void ft_draw_line(t_data *img, t_fdf *data ,int X0, int Y0, int X1, int Y1, int alltitude);
+
 
 #endif

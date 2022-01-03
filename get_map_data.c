@@ -12,6 +12,7 @@
 
 #include "get_next_line.h"
 #include "libft.h"
+#include "fdf.h"
 #include "points.h"
 #include "draw.h"
 #include <sys/stat.h>
@@ -110,97 +111,38 @@ int	ft_get_lines(char *path)
 	return (number_of_lines);
 }
 
-s_point		**ft_read_data(char *path, int lines)
+void	ft_read_data(char *path, t_fdf *data)
 {
-	s_point **data;
-	s_point *node;
+	// t_point *node;
 	char	**points;
 	char	**seperation;
 	char	*line;
-	int width;
 	int fd;
 	int i;
 	int j;
 
 	i = 0;
 	fd = open(path, O_RDONLY);
-	data = (s_point **)malloc(sizeof(s_point *) * (lines + 1));
-	while (i < lines)
+	data->matrix = (t_point **)malloc(sizeof(t_point *) * (data->height + 1));
+	while (i < data->height)
 	{
 		j = 0;
-		data[i] = NULL;
 		line = get_next_line(fd);
-		width = ft_get_width(line, ' ');
+		data->matrix[i] = NULL;
+		data->width = ft_get_width(line, ' ');
 		points = ft_split(line, ' ');
-		while (j < width)
+		while (j < data->width)
 		{
 			seperation = ft_split(points[j],',');
 			// The line bellow could be used for normination purpuses.
 			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
-			data[i] = append_point(data[i], create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
+			data->matrix[i] = append_point(data->matrix[i], create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
 			j++;
 		}
 		i++;
 	}
 	close(fd);
-	return (data);
 }
-
-int main(void)
-{
-
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
-	int lines;
-	char *path;
-	s_point	**matrix;
-	int i;
-	int j;
-	int xp;
-	int yp;
-	int zoom;
-
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Fdf");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	i = 0;
-	j = 0;
-	zoom = 50;
-	path = "test_maps/42.fdf";
-	lines = ft_get_lines(path);
-	matrix = ft_read_data(path, lines);
-	while (i < lines)
-	{
-		j = 0;
-		xp = i;
-		while (matrix[i] != NULL)
-		{
-			// yp = j;
-			ft_draw_line(&img, xp, yp , xp + zoom, yp);
-			ft_draw_line(&img, xp, yp , xp , yp + zoom);
-			// xp = xp + zoom;
-			// yp = yp + zoom;
-			matrix[i] = matrix[i]->next;
-			j++;
-		}
-		i++;
-	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
-}
-
-
-
-
-
-
-
-
-
-
 
 
 

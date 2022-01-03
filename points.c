@@ -1,10 +1,10 @@
 #include "points.h"
 
-s_point *create_point(int alltitude , int color) 
+t_point *create_point(int alltitude , int color) 
 {
-    s_point *point;
+    t_point *point;
 
-    point = malloc(sizeof(s_point));
+    point = malloc(sizeof(t_point));
     if (!point)
         return (NULL);
     point->color = color;
@@ -13,9 +13,9 @@ s_point *create_point(int alltitude , int color)
     return (point);
 }
 
-s_point *append_point(s_point *head, s_point *point)
+t_point *append_point(t_point *head, t_point *point)
 {
-    s_point *lst_point;
+    t_point *lst_point;
 
     if (head == NULL)
         return (point);
@@ -24,7 +24,7 @@ s_point *append_point(s_point *head, s_point *point)
     return (head);
 }
 
-s_point *last_point(s_point *lst)
+t_point *last_point(t_point *lst)
 {
     if (!lst)
         return (NULL);

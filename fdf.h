@@ -1,11 +1,15 @@
+#include "points.h"
 #ifndef FDF_H
 #define FDF_H
 
-typedef struct fdf_data
+typedef struct s_fdf
 {
     int width;
     int height;
-    int z;
+    int zoom;
+    void	*mlx;
+	void	*mlx_win;
+    t_point **matrix;
 } t_fdf;
 
 #endif
