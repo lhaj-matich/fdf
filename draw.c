@@ -11,10 +11,12 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void ft_draw_line(t_data *img, t_fdf *data ,int X0, int Y0, int X1, int Y1, int alltitude)
+void ft_draw_line(t_data *img, t_fdf *data ,int X0, int Y0, int X1, int Y1)
 {
     // calculate dx & dy
 	int zoom = data->zoom;
+    int saved = X0;
+    int alltitude;
 	X0 *= zoom;
 	X1 *= zoom;
 	Y0 *= zoom;
@@ -24,18 +26,22 @@ void ft_draw_line(t_data *img, t_fdf *data ,int X0, int Y0, int X1, int Y1, int 
  
     // calculate steps required for generating pixels
     int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
- 
     // calculate increment in x & y for each steps
     float Xinc = dx / (float) steps;
     float Yinc = dy / (float) steps;
- 
     // Put pixel for each step
     float X = X0;
     float Y = Y0;
     for (int i = 0; i <= steps; i++)
     {
-		// if (data->matrix[saved]->z > 0) 
-        printf("%d ", alltitude);
+		// if (data->matrix[data->actual]->z > 0)
+        if (data->matrix[saved]->next != NULL)
+        {
+            printf("%d ", data->matrix[saved]->z);
+           data->matrix[saved] = data->matrix[saved]->next;
+            // alltitude = data->matrix[saved]->z;
+        }
+        // printf("%d ", alltitude);
 		my_mlx_pixel_put(img, X, Y, 0x00FF0000);  // put pixel at (X,Y)
 		// else
 		// 	my_mlx_pixel_put(img, X, Y, 0x00FF1000);
