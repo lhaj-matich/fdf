@@ -17,7 +17,6 @@
 #include "draw.h"
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <mlx.h>
 #include <stdio.h>
 
 int	ft_convert_hex(char *hex)
