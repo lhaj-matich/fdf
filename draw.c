@@ -60,7 +60,7 @@ void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1
     x_step = x1 - x;
     y_step = y1 - y;
 
-    max = maxi(abs(x_step), abs(y_step));
+    max = maxi(fabsf(x_step), fabsf(y_step));
     x_step /= max;
     y_step /= max;
 
@@ -74,46 +74,36 @@ void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1
 }
 
 
-
-
-
-
-// void ft_draw_line(t_data *img, t_fdf *data ,int X0, int Y0, int X1, int Y1)
+// void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
 // {
 
 //     // Shiftting the figure
 //     // Adding the zoom
-// 	ft_zoom(&X0, &Y0, &X1, &Y1, data);
+// 	ft_zoom(&x, &y, &x1, &y1, data);
   
 
 //     // calculate dx & dy
-//     int dx = X1 - X0;
-//     int dy = Y1 - Y0;
+//     int dx = x1 - x;
+//     int dy = y1 - y;
  
-//     iso(&X0, &Y0,data->matrix->z);
-//     iso(&X1, &Y1,data->matrix->z);
+//     iso(&x, &y,data->matrix->z);
+//     iso(&x1, &y1,data->matrix->z);
 //     // calculate steps required for generating pixels
 //     int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
 //     // calculate increment in x & y for each steps
-//     float Xinc = dx / (float) steps;
-//     float Yinc = dy / (float) steps;
+//     float xinc = dx / (float) steps;
+//     float yinc = dy / (float) steps;
 //     // Put pixel for each step
-//     float X = X0;
-//     float Y = Y0;
+//     float X = x;
+//     float Y = y;
 //       // Isometric
    
 //     int color = (data->matrix->z) > 0 ? 0x00FF0000 : 0xffffff;
 //     for (int i = 0; i <= steps; i++)
 //     {
-// 		// if (data->matrix[data->actual]->z > 0)
-//         // printf("%d ", alltitude);
-// 		my_mlx_pixel_put(img, X, Y, color);
-        
-//           // put pixel at (X,Y)
-// 		// else
-// 		// 	my_mlx_pixel_put(img, X, Y, 0x00FF1000);
-//         X += Xinc;           // increment in x at each step
-//         Y += Yinc;           // increment in y at each step
+// 		    my_mlx_pixel_put(img, X, Y, color);
+//          X += xinc;           // increment in x at each step
+//          Y += yinc;           // increment in y at each step
 //     }
 // }
 

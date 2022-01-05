@@ -12,7 +12,7 @@ typedef struct s_fdf
     int shift;
     void	*mlx;
 	void	*mlx_win;
-    t_point *matrix;
+    t_point **matrix;
 } t_fdf;
 
 #endif

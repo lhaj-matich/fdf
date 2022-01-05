@@ -128,21 +128,28 @@ void	ft_read_data(char *path, t_fdf *data)
 		line = get_next_line(fd);
 		data->width = ft_get_width(line, ' ');
 		points = ft_split(line, ' ');
+		data->matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
 		while (j < data->width)
 		{
 			seperation = ft_split(points[j],',');
 			// The line bellow could be used for normination purpuses.
 			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
-			data->matrix = append_point(data->matrix, create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
+			int z = ft_atoi(seperation[0]);
+			int color = ft_convert_hex(seperation[1]);
+			data->matrix[j + i] = create_point(z , color);
 			j++;
 		}
 		i++;
 	}
+	data->matrix[j + i] = NULL;
 	close(fd);
 }
 
 
+/// Tasks:
 
+// *The next idea: is to allocate a table of sturct each index contains a color and alltitude of the corresponding point.
+// *Looking into how key bindings working in the minilibx library.
 
 // This is just a bunch of dead code.
 // int	**ft_create_matrix(char **data,int lines_number, int width)

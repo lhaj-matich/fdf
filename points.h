@@ -6,7 +6,6 @@
 typedef struct s_point {
     int color;
     int z;
-    struct s_point *next;
 } t_point;
 
 t_point *create_point(int color, int alltitude);
