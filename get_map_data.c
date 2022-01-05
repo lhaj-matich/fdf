@@ -122,12 +122,10 @@ void	ft_read_data(char *path, t_fdf *data)
 
 	i = 0;
 	fd = open(path, O_RDONLY);
-	data->matrix = (t_point **)malloc(sizeof(t_point *) * (data->height + 1));
 	while (i < data->height)
 	{
 		j = 0;
 		line = get_next_line(fd);
-		data->matrix[i] = NULL;
 		data->width = ft_get_width(line, ' ');
 		points = ft_split(line, ' ');
 		while (j < data->width)
@@ -135,7 +133,7 @@ void	ft_read_data(char *path, t_fdf *data)
 			seperation = ft_split(points[j],',');
 			// The line bellow could be used for normination purpuses.
 			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
-			data->matrix[i] = append_point(data->matrix[i], create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
+			data->matrix = append_point(data->matrix, create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1])));
 			j++;
 		}
 		i++;
