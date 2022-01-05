@@ -7,8 +7,8 @@ t_point *create_point(int alltitude , int color)
     point = malloc(sizeof(t_point));
     if (!point)
         return (NULL);
-    point->color = color;
     point->z = alltitude;
+    point->color = color;
     return (point);
 }
 

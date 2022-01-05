@@ -92,27 +92,33 @@ int	ft_check(char *str)
 	return (0);
 }
 
-int	ft_get_lines(char *path)
+
+// The next challenge is to make this function able to return the number of lines and columns
+void	ft_get_dimensions(char *path, t_fdf *data)
 {
-	char *line;
-	int number_of_lines;
-	int fd;
+	char	*line;
+	int 	fd;
+	int 	height;
+	int		width;
 
 	fd = open(path, O_RDONLY);
-	number_of_lines = 0;
 	line = get_next_line(fd);
+	width = ft_get_width(line, ' ');
+	height = 0;
 	while (line != NULL)
 	{
-		number_of_lines++;
+		height++;
 		line = get_next_line(fd);
 	}
+	data->height = height;
+	data->width = width;
 	close(fd);
-	return (number_of_lines);
 }
 
-void	ft_read_data(char *path, t_fdf *data)
+t_point **ft_read_data(char *path, t_fdf *data)
 {
 	// t_point *node;
+	t_point	**matrix;
 	char	**points;
 	char	**seperation;
 	char	*line;
@@ -122,13 +128,12 @@ void	ft_read_data(char *path, t_fdf *data)
 
 	i = 0;
 	fd = open(path, O_RDONLY);
+	matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
 	while (i < data->height)
 	{
 		j = 0;
 		line = get_next_line(fd);
-		data->width = ft_get_width(line, ' ');
 		points = ft_split(line, ' ');
-		data->matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
 		while (j < data->width)
 		{
 			seperation = ft_split(points[j],',');
@@ -136,13 +141,14 @@ void	ft_read_data(char *path, t_fdf *data)
 			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
 			int z = ft_atoi(seperation[0]);
 			int color = ft_convert_hex(seperation[1]);
-			data->matrix[j + i] = create_point(z , color);
+			matrix[j + i] = create_point(z , color);
+			// printf("%d ", matrix[j + i]->z);
 			j++;
 		}
 		i++;
 	}
-	data->matrix[j + i] = NULL;
 	close(fd);
+	return (matrix);
 }
 
 
