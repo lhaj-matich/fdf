@@ -122,6 +122,7 @@ t_point **ft_read_data(char *path, t_fdf *data)
 	char	**points;
 	char	**seperation;
 	char	*line;
+	int width;
 	int fd;
 	int i;
 	int k;
@@ -135,6 +136,7 @@ t_point **ft_read_data(char *path, t_fdf *data)
 	{
 		j = 0;
 		line = get_next_line(fd);
+		width = ft_get_width(line, ' ');
 		points = ft_split(line, ' ');
 		while (j < data->width)
 		{
