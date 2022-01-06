@@ -4,13 +4,14 @@
 
 typedef struct s_fdf
 {
-    t_point *matrix;
+    t_point **matrix;
     void	*mlx;
 	void	*mlx_win;
     int width;
     int height;
     int zoom;
     int shift;
+    int k;
 } t_fdf;
 
 #endif

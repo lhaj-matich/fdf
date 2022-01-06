@@ -124,11 +124,13 @@ t_point **ft_read_data(char *path, t_fdf *data)
 	char	*line;
 	int fd;
 	int i;
+	int k;
 	int j;
 
+	k = 0;
 	i = 0;
 	fd = open(path, O_RDONLY);
-	matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
+	data->matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
 	while (i < data->height)
 	{
 		j = 0;
@@ -141,16 +143,15 @@ t_point **ft_read_data(char *path, t_fdf *data)
 			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
 			int z = ft_atoi(seperation[0]);
 			int color = ft_convert_hex(seperation[1]);
-			matrix[j + i] = create_point(z , color);
-			// printf("%d ", matrix[j + i]->z);
+			data->matrix[k] = create_point(z , color);
 			j++;
+			k++;
 		}
 		i++;
 	}
 	close(fd);
 	return (matrix);
 }
-
 
 /// Tasks:
 

@@ -3,12 +3,14 @@
 #include "points.h"
 #include "draw.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color, t_fdf *fdf)
 {
 	char	*dst;
-
+    if ((x >=0 || x <= fdf->height) && ( y >= 0  || y <= fdf->width))
+    {
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+    }
 }
 
 int maxi(float a, float b)
@@ -37,13 +39,13 @@ void    ft_zoom(float *x, float *y, float *x1, float *y1, t_fdf *data)
 
 void iso(float *x, float *y, int z)
 {
-    int previous_x;
-    int previous_y;
+    int p_x;
+    int p_y;
 
-    previous_x = *x;
-    previous_y = *y;
-    *x = (previous_x - previous_y) * cos(0.523599);
-    *y = -z + (previous_x + previous_y) * sin(0.523599);
+    p_x = *x;
+    p_y = *y;
+    *x = (p_x - p_y) * cos(0.523599);
+    *y  = (p_x + p_y) * sin(0.523599) - z;
 }
 
 void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
@@ -51,12 +53,24 @@ void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1
     float x_step;
     float y_step;
     int max;
+    int color;
+    int k1;
+    int k2;
+    int z1;
+    int z2;
 
 
+    k1 = y * data->width + x;
+    z1 = data->matrix[k1]->z;
+    k2 = y1 * data->width + x1;
+    z2 = data->matrix[k2]->z;
+
+    // printf("%d-%d\n",k1, k2);
     ft_zoom(&x, &y, &x1, &y1, data);
-    iso(&x, &y, data->matrix->z);
-    iso(&x1, &y1, data->matrix->z);
+    iso(&x, &y, z1);
+    iso(&x1, &y1, z2);
     ft_shift(&x, &y, &x1, &y1, data);
+    color = (z1 > 0) ? 0x00FF0000 : 0xfffffff;
     x_step = x1 - x;
     y_step = y1 - y;
 
@@ -64,10 +78,9 @@ void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1
     x_step /= max;
     y_step /= max;
 
-    int color = (data->matrix->z) > 0 ? 0x00FF0000 : 0xffffff;
     while ((int)(x - x1) || (int)(y - y1))
     {
-        my_mlx_pixel_put(img, x, y, color);
+        my_mlx_pixel_put(img, x, y, color,data);
         x += x_step;
         y += y_step;
     }
