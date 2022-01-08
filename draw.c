@@ -3,13 +3,13 @@
 #include "points.h"
 #include "draw.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color, t_fdf *fdf)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-    if ((x >=0 || x <= fdf->height) && ( y >= 0  || y <= fdf->width))
+    if ((x >=0 && x <= 1320) && ( y >= 0  && y <= 968))
     {
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+        dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+        *(unsigned int*)dst = color;
     }
 }
 
@@ -80,7 +80,7 @@ void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1
 
     while ((int)(x - x1) || (int)(y - y1))
     {
-        my_mlx_pixel_put(img, x, y, color,data);
+        my_mlx_pixel_put(img, x, y, color);
         x += x_step;
         y += y_step;
     }

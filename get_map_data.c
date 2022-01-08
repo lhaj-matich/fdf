@@ -115,10 +115,9 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	close(fd);
 }
 
-t_point **ft_read_data(char *path, t_fdf *data)
+void	ft_read_data(char *path, t_fdf *data)
 {
 	// t_point *node;
-	t_point	**matrix;
 	char	**points;
 	char	**seperation;
 	char	*line;
@@ -136,7 +135,6 @@ t_point **ft_read_data(char *path, t_fdf *data)
 	{
 		j = 0;
 		line = get_next_line(fd);
-		width = ft_get_width(line, ' ');
 		points = ft_split(line, ' ');
 		while (j < data->width)
 		{
@@ -152,7 +150,6 @@ t_point **ft_read_data(char *path, t_fdf *data)
 		i++;
 	}
 	close(fd);
-	return (matrix);
 }
 
 /// Tasks:
