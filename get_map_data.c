@@ -71,7 +71,7 @@ int     ft_get_width(char *str, char sep)
         }
         while (str[i] != '\0')
         {
-                if (str[i] != sep && str[i - 1] == sep)
+                if (str[i] != sep && str[i] != '\n' && str[i - 1] == sep)
                         words_count++;
                 i++;
         }
@@ -103,15 +103,22 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
-	width = ft_get_width(line, ' ');
+	data->width = ft_get_width(line, ' ');
 	height = 0;
 	while (line != NULL)
 	{
-		height++;
 		line = get_next_line(fd);
+		if (line)
+		{
+			if (data->width != ft_get_width(line, ' '))
+			{
+				printf("Invalid Map: The map is incomplete\n");
+				exit(0);
+			}
+		}
+		height++;
 	}
 	data->height = height;
-	data->width = width;
 	close(fd);
 }
 

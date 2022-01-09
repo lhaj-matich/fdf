@@ -15,13 +15,13 @@ int main(int argc, char **argv)
     int y;
     int k;
 
-    path = "test_maps/julia.fdf";
+    path = "test_maps/42.fdf";
     data = (t_fdf *)malloc(sizeof(t_fdf));
     if (!data)
         return (0);
     data->mlx = mlx_init();
 	ft_get_dimensions(path, data);
-    data->zoom = 2;
+    data->zoom = 90;
     data->shift = 50;
     data->mlx_win = mlx_new_window(data->mlx, 1320, 968 , "FDF");
     img.img = mlx_new_image(data->mlx,1320, 968);
@@ -33,8 +33,10 @@ int main(int argc, char **argv)
         x = 0;
         while (x < data->width)
         {
-            if (x < data->width - 1)
+            if (x < data->width - 1){
                 ft_draw_line(&img, data, x, y, x+1, y);  
+                printf("Before the segfault: %d-%d\n",x, y);
+            }
             if (y <  data->height - 1)
                 ft_draw_line(&img, data, x, y, x, y+ 1);
            x++;
