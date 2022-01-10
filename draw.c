@@ -6,7 +6,7 @@
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-    if ((x >=0 && x <= 1320) && ( y >= 0  && y <= 968))
+    if ((x >=0 && x < 800) && ( y >= 0  && y < 600))
     {
         dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
         *(unsigned int*)dst = color;
@@ -21,7 +21,7 @@ int maxi(float a, float b)
         return (b);
 }
 
-void    ft_shift(float *x, float *y, float *x1, float *y1, t_fdf *data)
+void    ft_shift(int *x, int *y, int *x1, int *y1, t_fdf *data)
 {  
     *x += data->shift * 10;
     *y += data->shift;
@@ -29,7 +29,7 @@ void    ft_shift(float *x, float *y, float *x1, float *y1, t_fdf *data)
     *y1 += data->shift;
 }
 
-void    ft_zoom(float *x, float *y, float *x1, float *y1, t_fdf *data)
+void    ft_zoom(int *x, int *y, int *x1, int *y1, t_fdf *data)
 {  
     *x *= data->zoom;
     *y *= data->zoom;
@@ -37,7 +37,7 @@ void    ft_zoom(float *x, float *y, float *x1, float *y1, t_fdf *data)
     *y1 *= data->zoom;
 }
 
-void iso(float *x, float *y, int z)
+void iso(int *x, int *y, int z)
 {
     int p_x;
     int p_y;
@@ -48,10 +48,48 @@ void iso(float *x, float *y, int z)
     *y  = (p_x + p_y) * sin(0.523599) - z;
 }
 
-void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
+// void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
+// {
+//     float x_step;
+//     float y_step;
+//     int max;
+//     int color;
+//     int k1;
+//     int k2;
+//     int z1;
+//     int z2;
+
+
+//     k1 = y * data->width + x;
+//     z1 = data->matrix[k1]->z;
+//     k2 = y1 * data->width + x1;
+//     z2 = data->matrix[k2]->z;
+
+//     // printf("%d-%d\n",k1, k2);
+//     ft_zoom(&x, &y, &x1, &y1, data);
+//     iso(&x, &y, z1);
+//     iso(&x1, &y1, z2);
+//     ft_shift(&x, &y, &x1, &y1, data);
+//     color = (z1 > 0) ? 0x00FF0000 : 0xfffffff;
+//     x_step = x1 - x;
+//     y_step = y1 - y;
+
+//     max = maxi(fabsf(x_step), fabsf(y_step));
+//     x_step /= max;
+//     y_step /= max;
+
+//     while ((int)(x - x1) || (int)(y - y1))
+//     {
+//         my_mlx_pixel_put(img, x, y, color);
+//         x += x_step;
+//         y += y_step;
+//     }
+// }
+
+void ft_draw_line(t_data *img, t_fdf *data,int x0, int y0, int x1, int y1)
 {
-    float x_step;
-    float y_step;
+    int dx,dy,sx,sy,err,e2;
+
     int max;
     int color;
     int k1;
@@ -60,32 +98,42 @@ void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1
     int z2;
 
 
-    k1 = y * data->width + x;
+    k1 = y0 * data->width + x0;
     z1 = data->matrix[k1]->z;
     k2 = y1 * data->width + x1;
     z2 = data->matrix[k2]->z;
 
-    // printf("%d-%d\n",k1, k2);
-    ft_zoom(&x, &y, &x1, &y1, data);
-    iso(&x, &y, z1);
+
+        ft_zoom(&x0, &y0, &x1, &y1, data);
+    iso(&x0, &y0, z1);
     iso(&x1, &y1, z2);
-    ft_shift(&x, &y, &x1, &y1, data);
+    ft_shift(&x0, &y0, &x1, &y1, data);
+
+    dx = abs(x1 - x0);
+    sx = x0<x1 ? 1 : -1;
+    dy = -abs(y1 - y0);
+    sy = y0<y1 ? 1 : -1;
+    err = dx + dy;
+
     color = (z1 > 0) ? 0x00FF0000 : 0xfffffff;
-    x_step = x1 - x;
-    y_step = y1 - y;
-
-    max = maxi(fabsf(x_step), fabsf(y_step));
-    x_step /= max;
-    y_step /= max;
-
-    while ((int)(x - x1) || (int)(y - y1))
+    while (1)
     {
-        my_mlx_pixel_put(img, x, y, color);
-        x += x_step;
-        y += y_step;
+        my_mlx_pixel_put(img, x0, y0, color);
+        if (x0 == x1 && y0 == y1)
+            break ;
+        e2 = 2*err;
+        if (e2 >= dy)
+        {
+            err += dy;
+            x0 += sx;
+        }
+        if (e2 <= dx)
+        {
+            err += dx;
+            y0 += sy;
+        }    
     }
 }
-
 
 // void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
 // {
