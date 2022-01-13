@@ -21,10 +21,10 @@ int main(int argc, char **argv)
         return (0);
     data->mlx = mlx_init();
 	ft_get_dimensions(path, data);
-    data->zoom = 2;
+    data->zoom = 71;
     data->shift = 50;
-    data->mlx_win = mlx_new_window(data->mlx, 1320, 968 , "FDF");
-    img.img = mlx_new_image(data->mlx,1320, 968);
+    data->mlx_win = mlx_new_window(data->mlx, 800, 600 , "FDF");
+    img.img = mlx_new_image(data->mlx,800, 600);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
     ft_read_data(path, data);
     y = 0;
@@ -33,8 +33,9 @@ int main(int argc, char **argv)
         x = 0;
         while (x < data->width)
         {
-            if (x < data->width - 1)
-                ft_draw_line(&img, data, x, y, x+1, y);  
+            if (x < data->width - 1){
+                ft_draw_line(&img, data, x, y, x+1, y); 
+            }
             if (y <  data->height - 1)
                 ft_draw_line(&img, data, x, y, x, y+ 1);
            x++;
