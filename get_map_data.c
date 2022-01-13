@@ -100,16 +100,32 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	int 	fd;
 	int 	height;
 	int		width;
+	int i;
+	int j;
+
+	height = 0;
 
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	width = ft_get_width(line, ' ');
-	height = 0;
+	printf("%d\n", width);
 	while (line != NULL)
 	{
-		height++;
 		line = get_next_line(fd);
+		i = ft_strlen(line);
+		j = 0;
+		if (line)
+		{
+			while (j < i)
+			{
+				printf("%c", line[j]);
+				j++;
+			}
+		}
+		height++;
+		exit(0);
 	}
+	exit(0);
 	data->height = height;
 	data->width = width;
 	close(fd);

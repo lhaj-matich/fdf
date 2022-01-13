@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     int y;
     int k;
 
-    path = "test_maps/julia.fdf";
+    path = "test_maps/42.fdf";
     data = (t_fdf *)malloc(sizeof(t_fdf));
     if (!data)
         return (0);
