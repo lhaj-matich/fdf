@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include "fdf.h"
 #include "points.h"
 #include "draw.h"
@@ -6,20 +7,20 @@
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-    if ((x >=0 && x < 800) && ( y >= 0  && y < 600))
+    if ((x >=0 && x < 960) && ( y >= 0  && y < 780))
     {
         dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
         *(unsigned int*)dst = color;
     }
 }
 
-int maxi(float a, float b)
-{
-    if (a > b)
-        return (a);
-    else
-        return (b);
-}
+// int maxi(float a, float b)
+// {
+//     if (a > b)
+//         return (a);
+//     else
+//         return (b);
+// }
 
 void    ft_shift(int *x, int *y, int *x1, int *y1, t_fdf *data)
 {  
@@ -86,6 +87,24 @@ void iso(int *x, int *y, int z)
 //     }
 // }
 
+// White 0xfffffff
+// Red 0x00FF0000
+
+int  get_color(int k, t_fdf *data)
+{
+    int color;
+    int alltitude;
+
+    color = data->matrix[k]->color;
+    alltitude = data->matrix[k]->z;
+    if (color > 0) 
+        return color;
+    else if (alltitude > 0 && color == 0)
+        return (0x00FF0000);
+    else
+        return (0xfffffff);
+}
+
 void ft_draw_line(t_data *img, t_fdf *data,int x0, int y0, int x1, int y1)
 {
     int dx,dy,sx,sy,err,e2;
@@ -104,18 +123,18 @@ void ft_draw_line(t_data *img, t_fdf *data,int x0, int y0, int x1, int y1)
     z2 = data->matrix[k2]->z;
 
 
-        ft_zoom(&x0, &y0, &x1, &y1, data);
+    ft_zoom(&x0, &y0, &x1, &y1, data);
     iso(&x0, &y0, z1);
     iso(&x1, &y1, z2);
     ft_shift(&x0, &y0, &x1, &y1, data);
 
     dx = abs(x1 - x0);
-    sx = x0<x1 ? 1 : -1;
+    sx = x0 < x1 ? 1 : -1;
     dy = -abs(y1 - y0);
-    sy = y0<y1 ? 1 : -1;
+    sy = y0 < y1 ? 1 : -1;
     err = dx + dy;
 
-    color = (z1 > 0) ? 0x00FF0000 : 0xfffffff;
+    color = get_color(k1, data);
     while (1)
     {
         my_mlx_pixel_put(img, x0, y0, color);

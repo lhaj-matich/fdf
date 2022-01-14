@@ -122,7 +122,6 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 		}
 		height++;
 	}
-	exit(0);
 	data->height = height;
 	close(fd);
 }
