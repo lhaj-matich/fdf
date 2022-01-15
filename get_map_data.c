@@ -78,22 +78,6 @@ int     ft_get_width(char *str, char sep)
         return (words_count);
 }
 
-int	ft_check(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == ',')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-
-// The next challenge is to make this function able to return the number of lines and columns
 void	ft_get_dimensions(char *path, t_fdf *data)
 {
 	char	*line;

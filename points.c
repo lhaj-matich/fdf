@@ -1,3 +1,4 @@
+#include "fdf.h"
 #include "points.h"
 
 t_point *create_point(int alltitude , int color) 

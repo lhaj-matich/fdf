@@ -1,12 +1,8 @@
 #ifndef POINTS_H
 #define POINTS_H
 
+#include "fdf.h"
 #include <stdlib.h>
-
-typedef struct s_point {
-    int color;
-    int z;
-} t_point;
 
 t_point *create_point(int color, int alltitude);
 // t_point *last_point(t_point *lst);

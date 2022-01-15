@@ -1,8 +1,8 @@
 #include <math.h>
 #include <stdio.h>
 #include "fdf.h"
-#include "points.h"
 #include "draw.h"
+#include "points.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {

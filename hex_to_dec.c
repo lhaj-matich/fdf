@@ -37,9 +37,3 @@ int	ft_convert_hex(char *hex)
 	}
 	return (decimal);
 }
-
-int main(void)
-{
-	printf("%d\n",ft_convert_hex("3C"));
-	return (0);
-}
