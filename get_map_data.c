@@ -84,15 +84,11 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	int 	fd;
 	int 	height;
 	int		width;
-	int i;
-	int j;
 
 	height = 0;
-
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	data->width = ft_get_width(line, ' ');
-	height = 0;
 	while (line != NULL)
 	{
 		line = get_next_line(fd);

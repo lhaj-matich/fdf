@@ -24,10 +24,10 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void    ft_shift(int *x, int *y, int *x1, int *y1, t_fdf *data)
 {  
-    *x += data->shift * 10;
-    *y += data->shift;
-    *x1 += data->shift * 10;
-    *y1 += data->shift;
+    *x += data->shift_x;
+    *y += data->shift_y;
+    *x1 += data->shift_x;
+    *y1 += data->shift_y;
 }
 
 void    ft_zoom(int *x, int *y, int *x1, int *y1, t_fdf *data)
@@ -38,7 +38,7 @@ void    ft_zoom(int *x, int *y, int *x1, int *y1, t_fdf *data)
     *y1 *= data->zoom;
 }
 
-void iso(int *x, int *y, int z)
+void iso(int *x, int *y, int z, t_fdf *data)
 {
     int p_x;
     int p_y;
@@ -48,6 +48,8 @@ void iso(int *x, int *y, int z)
     *x = (p_x - p_y) * cos(0.523599);
     *y  = (p_x + p_y) * sin(0.523599) - z;
 }
+
+// Still need three functions that will handle the rotations.
 
 // void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
 // {
@@ -119,13 +121,15 @@ void ft_draw_line(t_data *img, t_fdf *data,int x0, int y0, int x1, int y1)
 
     k1 = y0 * data->width + x0;
     z1 = data->matrix[k1]->z;
+    if (z1 > 0)
+        z1 += data->z;
     k2 = y1 * data->width + x1;
     z2 = data->matrix[k2]->z;
-
-
+    if (z2 > 0)
+        z2 += data->z;
     ft_zoom(&x0, &y0, &x1, &y1, data);
-    iso(&x0, &y0, z1);
-    iso(&x1, &y1, z2);
+    iso(&x0, &y0, z1, data);
+    iso(&x1, &y1, z2, data);
     ft_shift(&x0, &y0, &x1, &y1, data);
 
     dx = abs(x1 - x0);

@@ -1,6 +1,8 @@
 #ifndef FDF_H
 #define FDF_H
 
+
+
 typedef struct s_point {
     int color;
     int z;
@@ -22,9 +24,13 @@ typedef struct s_fdf
     int width;
     int height;
     int zoom;
-    int shift;
+    int shift_x;
+    int shift_y;
+    int z;
     int k;
     t_data img;
 } t_fdf;
+
+void    ft_draw_map(t_fdf *data);
 
 #endif
