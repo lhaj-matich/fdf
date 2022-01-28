@@ -41,6 +41,9 @@ typedef struct s_fdf
     int shift_y;
     int z;
     int k;
+    double x_angle;
+    double y_angle;
+    double z_angle;
     t_data img;
 } t_fdf;
 

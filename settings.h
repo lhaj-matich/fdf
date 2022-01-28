@@ -10,5 +10,8 @@
 #define KEYRIGHT 65363
 #define KEYE 113
 #define KEYQ 101
+#define KEYX 120
+#define KEYY 121
+#define KEYZ 122
 
 #endif

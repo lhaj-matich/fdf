@@ -11,8 +11,11 @@ int ft_init_fdf(t_fdf *params)
     t_data img;
 
     params->img = img;
-    params->zoom = 20;
+    params->zoom = 30;
     params->z = 0;
+    params->x_angle = 0;
+    params->y_angle = 0;
+    params->z_angle = 0;
     params->shift_x = 300;
     params->shift_y = 300;
     params->mlx = mlx_init();

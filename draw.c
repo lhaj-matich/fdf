@@ -6,6 +6,28 @@
 #include "points.h"
 #include "keys.h"
 
+
+void	ft_xrotation(int *x, int *y, int *z, double angle)
+{
+	(void)(x);
+	*y = *y * cos(angle) + *z * sin(angle);
+	*z = -(*y) * sin(angle) + *z * (cos(angle));
+}
+
+void	ft_yrotation(int *x, int *y, int *z, double angle)
+{
+	(void)(y);
+	*x = *x * cos(angle) + *z * sin(angle);
+	*z = -(*x) * sin(angle) + *z * (cos(angle));
+}
+
+void	ft_zrotation(int *x, int *y, int *z, double angle)
+{
+	(void)(z);
+	*x = *x * cos(angle) - *y * sin(angle);
+	*y = (*x) * sin(angle) + *y * (cos(angle));
+}
+
 void    ft_translate_map(int *x, int *y, t_fdf *data)
 {  
     *x += data->shift_x;
@@ -59,6 +81,9 @@ t_dot   *ft_setup_point(t_fdf *data, int x, int y)
         alltitude += data->z;
     ft_zoom_map(&x, &y, data);
     ft_isometric(&x, &y, alltitude);
+    ft_xrotation(&x, &y, &alltitude, data->x_angle);
+    ft_yrotation(&x, &y, &alltitude, data->y_angle);
+    ft_zrotation(&x, &y, &alltitude, data->z_angle);
     ft_translate_map(&x, &y , data);
     point->x = x;
     point->y = y;
