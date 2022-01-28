@@ -1,44 +1,24 @@
 #include <math.h>
 #include <stdio.h>
+#include <mlx.h>
 #include "fdf.h"
 #include "draw.h"
 #include "points.h"
+#include "keys.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-    if ((x >=0 && x < 960) && ( y >= 0  && y < 780))
-    {
-        dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-        *(unsigned int*)dst = color;
-    }
-}
-
-// int maxi(float a, float b)
-// {
-//     if (a > b)
-//         return (a);
-//     else
-//         return (b);
-// }
-
-void    ft_shift(int *x, int *y, int *x1, int *y1, t_fdf *data)
+void    ft_translate_map(int *x, int *y, t_fdf *data)
 {  
     *x += data->shift_x;
     *y += data->shift_y;
-    *x1 += data->shift_x;
-    *y1 += data->shift_y;
 }
 
-void    ft_zoom(int *x, int *y, int *x1, int *y1, t_fdf *data)
+void    ft_zoom_map(int *x, int *y, t_fdf *data)
 {  
     *x *= data->zoom;
     *y *= data->zoom;
-    *x1 *= data->zoom;
-    *y1 *= data->zoom;
 }
 
-void iso(int *x, int *y, int z, t_fdf *data)
+void ft_isometric(int *x, int *y, int z)
 {
     int p_x;
     int p_y;
@@ -47,6 +27,70 @@ void iso(int *x, int *y, int z, t_fdf *data)
     p_y = *y;
     *x = (p_x - p_y) * cos(0.523599);
     *y  = (p_x + p_y) * sin(0.523599) - z;
+}
+
+int  ft_get_color(int index, t_fdf *data)
+{
+    int color;
+    int alltitude;
+
+    color = data->matrix[index]->color;
+    alltitude = data->matrix[index]->z;
+    if (color > 0) 
+        return color;
+    else if (alltitude > 0 && color == 0)
+        return (0x00FF0000);
+    else
+        return (0xfffffff);
+}
+
+t_dot   *ft_setup_point(t_fdf *data, int x, int y)
+{
+    t_dot *point;
+    int index;
+    int alltitude;
+
+    point = malloc(sizeof(t_dot));
+    if (!point)
+        return (NULL);
+    index = y * data->width + x;
+    alltitude = data->matrix[index]->z;
+    if (alltitude > 0)
+        alltitude += data->z;
+    ft_zoom_map(&x, &y, data);
+    ft_isometric(&x, &y, alltitude);
+    ft_translate_map(&x, &y , data);
+    point->x = x;
+    point->y = y;
+    point->color = ft_get_color(index, data);
+    return (point);
+}
+
+void    ft_draw_map(t_fdf *data)
+{
+    int x;
+    int y;
+
+    y = 0;
+    data->img.img = mlx_new_image(data->mlx,960, 780);
+    data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
+    while (y < data->height)
+    {
+        x = 0;
+        while (x < data->width)
+        {
+            if (x < data->width - 1)
+                ft_draw_line(data, ft_setup_point(data ,x, y), ft_setup_point(data ,x + 1, y));
+            if (y <  data->height - 1)
+                ft_draw_line(data, ft_setup_point(data, x, y), ft_setup_point(data, x, y + 1));
+            x++;
+        }
+        y++;
+    }
+    mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img, 0, 0);
+    mlx_hook(data->mlx_win, 17, 0, close_window, data);
+    mlx_key_hook(data->mlx_win, handle_keys, data);
+    mlx_loop(data->mlx);
 }
 
 // Still need three functions that will handle the rotations.
@@ -92,71 +136,58 @@ void iso(int *x, int *y, int z, t_fdf *data)
 // White 0xfffffff
 // Red 0x00FF0000
 
-int  get_color(int k, t_fdf *data)
-{
-    int color;
-    int alltitude;
-
-    color = data->matrix[k]->color;
-    alltitude = data->matrix[k]->z;
-    if (color > 0) 
-        return color;
-    else if (alltitude > 0 && color == 0)
-        return (0x00FF0000);
-    else
-        return (0xfffffff);
-}
-
-void ft_draw_line(t_data *img, t_fdf *data,int x0, int y0, int x1, int y1)
-{
-    int dx,dy,sx,sy,err,e2;
-
-    int max;
-    int color;
-    int k1;
-    int k2;
-    int z1;
-    int z2;
 
 
-    k1 = y0 * data->width + x0;
-    z1 = data->matrix[k1]->z;
-    if (z1 > 0)
-        z1 += data->z;
-    k2 = y1 * data->width + x1;
-    z2 = data->matrix[k2]->z;
-    if (z2 > 0)
-        z2 += data->z;
-    ft_zoom(&x0, &y0, &x1, &y1, data);
-    iso(&x0, &y0, z1, data);
-    iso(&x1, &y1, z2, data);
-    ft_shift(&x0, &y0, &x1, &y1, data);
+// void ft_draw_line(t_data *img, t_fdf *data,int x0, int y0, int x1, int y1)
+// {
+//     int dx,dy,sx,sy,err,e2;
 
-    dx = abs(x1 - x0);
-    sx = x0 < x1 ? 1 : -1;
-    dy = -abs(y1 - y0);
-    sy = y0 < y1 ? 1 : -1;
-    err = dx + dy;
+//     int max;
+//     int color;
+//     int k1;
+//     int k2;
+//     int z1;
+//     int z2;
 
-    color = get_color(k1, data);
-    while (1)
-    {
-        my_mlx_pixel_put(img, x0, y0, color);
-        if (x0 == x1 && y0 == y1)
-            break ;
-        e2 = 2*err;
-        if (e2 >= dy)
-        {
-            err += dy;
-            x0 += sx;
-        }
-        if (e2 <= dx)
-        {
-            err += dx;
-            y0 += sy;
-        }    
-    }
-}
+
+//     k1 = y0 * data->width + x0;
+//     z1 = data->matrix[k1]->z;
+//     if (z1 > 0)
+//         z1 += data->z;
+//     k2 = y1 * data->width + x1;
+//     z2 = data->matrix[k2]->z;
+//     if (z2 > 0)
+//         z2 += data->z;
+//     ft_zoom_map(&x0, &y0, &x1, &y1, data);
+//     ft_isometric(&x0, &y0, z1, data);
+//     ft_isometric(&x1, &y1, z2, data);
+//     ft_translate_map(&x0, &y0, &x1, &y1, data);
+
+//     dx = abs(x1 - x0);
+//     sx = x0 < x1 ? 1 : -1;
+//     dy = -abs(y1 - y0);
+//     sy = y0 < y1 ? 1 : -1;
+//     err = dx + dy;
+
+//     color = ft_get_color(k1, data);
+//     while (1)
+//     {
+//         my_mlx_pixel_put(img, x0, y0, color);
+//         if (x0 == x1 && y0 == y1)
+//             break ;
+//         e2 = 2*err;
+//         if (e2 >= dy)
+//         {
+//             err += dy;
+//             x0 += sx;
+//         }
+//         if (e2 <= dx)
+//         {
+//             err += dx;
+//             y0 += sy;
+//         }    
+//     }
+// }
 
 // void ft_draw_line(t_data *img, t_fdf *data ,float x, float y, float x1, float y1) 
 // {

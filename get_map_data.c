@@ -112,7 +112,6 @@ void	ft_read_data(char *path, t_fdf *data)
 	char	**points;
 	char	**seperation;
 	char	*line;
-	int width;
 	int fd;
 	int i;
 	int k;

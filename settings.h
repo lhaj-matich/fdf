@@ -1,8 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#define WINDOW_HEIGHT 720
-#define WINDOW_WIDTH 910
+#define W_HEIGHT 780
+#define W_WIDTH 960
 
 #define KEYDOWN 65362
 #define KEYUP 65364
