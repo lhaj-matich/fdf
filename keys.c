@@ -32,20 +32,22 @@ void    ft_zoom(int key, t_fdf *param)
     }
 }
 
+void    ft_increase_alltitude(int key, t_fdf *param)
+{
+    if (key == KEYW)
+        param->z += 2;
+    else if (key == KEYS)
+        param->z -= 2;
+}
+
 void    ft_rotate(int key, t_fdf *param)
 {
     if (key == KEYX)
-    {
         param->x_angle += 0.2;
-    }
     else if (key == KEYY)
-    {
         param->y_angle += 0.2;
-    }
     else if (key == KEYZ)
-    {
         param->z_angle += 0.2;
-    }
 }
 
 int	handle_keys(int key, t_fdf *param)
@@ -53,6 +55,7 @@ int	handle_keys(int key, t_fdf *param)
     ft_translate(key, param);
     ft_zoom(key, param);
     ft_rotate(key, param);
+    ft_increase_alltitude(key, param);
 	mlx_clear_window(param->mlx, param->mlx_win);
 	mlx_destroy_image(param->mlx, param->img.img);
 	ft_draw_map(param);

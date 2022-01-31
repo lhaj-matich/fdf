@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ochoumou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sn4r7 <sn4r7@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2021/12/26 15:08:28 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/01/30 12:23:26 by sn4r7            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	height = 0;
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
+	if (!line)
+		ft_app_error(1);
 	data->width = ft_get_width(line, ' ');
 	while (line != NULL)
 	{
@@ -95,10 +97,7 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 		if (line)
 		{
 			if (data->width != ft_get_width(line, ' '))
-			{
-				printf("Invalid Map: The map is incomplete\n");
-				exit(0);
-			}
+				ft_app_error(2);
 		}
 		height++;
 	}
@@ -129,61 +128,10 @@ void	ft_read_data(char *path, t_fdf *data)
 		while (j < data->width)
 		{
 			seperation = ft_split(points[j],',');
-			// The line bellow could be used for normination purpuses.
-			// node = create_point(ft_atoi(seperation[0]), ft_convert_hex(seperation[1]));
-			int z = ft_atoi(seperation[0]);
-			int color = ft_convert_hex(seperation[1]);
-			data->matrix[k] = create_point(z , color);
+			data->matrix[k++] = create_point(ft_atoi(seperation[0]) , ft_convert_hex(seperation[1]));
 			j++;
-			k++;
 		}
 		i++;
 	}
 	close(fd);
 }
-
-/// Tasks:
-
-// *The next idea: is to allocate a table of sturct each index contains a color and alltitude of the corresponding point.
-// *Looking into how key bindings working in the minilibx library.
-
-// This is just a bunch of dead code.
-// int	**ft_create_matrix(char **data,int lines_number, int width)
-// {
-// 	char **line;
-// 	char **point_info;
-// 	int **matrix;
-// 	int **colors;
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-//  	colors = (int **)malloc(sizeof(int *) * (lines_number + 1));
-// 	matrix = (int **)malloc(sizeof(int *) * (lines_number + 1));
-// 	if (!matrix || !colors)
-// 		return (NULL);
-// 	while (i < lines_number - 1)
-// 	{
-// 		j = 0;
-// 		colors[i] = (int *)malloc(sizeof(int) * width);
-// 		matrix[i] = (int *)malloc(sizeof(int) * width);
-// 		line = ft_split(data[i], ' ');
-// 		while (j < width)
-// 		{
-// 			if (ft_check(line[j]))
-// 			{
-// 				point_info = ft_split(line[j], ',');
-// 				matrix[i][j] = ft_atoi(point_info[0]);
-// 				colors[i][j] = ft_convert_hex(point_info[1]);
-// 			}
-// 			else
-// 			{
-// 				matrix[i][j] = ft_atoi(line[j]);
-// 				colors[i][j] = 0;
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (colors);
-// }

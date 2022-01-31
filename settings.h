@@ -13,5 +13,9 @@
 #define KEYX 120
 #define KEYY 121
 #define KEYZ 122
+#define KEYW 119
+#define KEYS 115
+
+#define ERROR_STATUS 1
 
 #endif

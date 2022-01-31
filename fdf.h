@@ -1,10 +1,7 @@
 #ifndef FDF_H
 #define FDF_H
 
-typedef struct s_point {
-    int color;
-    int z;
-} t_point;
+#include "points.h"
 
 typedef struct s_dot {
     int x;
@@ -48,5 +45,6 @@ typedef struct s_fdf
 } t_fdf;
 
 void    ft_draw_map(t_fdf *data);
+void    ft_app_error(int error_code);
 
 #endif
