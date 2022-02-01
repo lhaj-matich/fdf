@@ -105,33 +105,24 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	close(fd);
 }
 
-void	ft_read_data(char *path, t_fdf *data)
+void	ft_read_data(char *path, t_fdf *data, t_read *params)
 {
-	// t_point *node;
-	char	**points;
-	char	**seperation;
-	char	*line;
-	int fd;
-	int i;
-	int k;
-	int j;
-
-	k = 0;
-	i = 0;
-	fd = open(path, O_RDONLY);
+	
+	params->k = 0;
+	params->i = 0;
+	params->fd = open(path, O_RDONLY);
 	data->matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
-	while (i < data->height)
+	while (params->i < data->height)
 	{
-		j = 0;
-		line = get_next_line(fd);
-		points = ft_split(line, ' ');
-		while (j < data->width)
+		params->j = 0;
+		params->points = ft_split(get_next_line(params->fd), ' ');
+		while (params->j < data->width)
 		{
-			seperation = ft_split(points[j],',');
-			data->matrix[k++] = create_point(ft_atoi(seperation[0]) , ft_convert_hex(seperation[1]));
-			j++;
+			params->seperation = ft_split(params->points[params->j],',');
+			data->matrix[params->k++] = create_point(ft_atoi(params->seperation[0]), ft_convert_hex(params->seperation[1]));
+			params->j++;
 		}
-		i++;
+		params->i++;
 	}
-	close(fd);
+	close(params->fd);
 }

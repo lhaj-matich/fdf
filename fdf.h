@@ -26,6 +26,15 @@ typedef struct s_bresenham {
     int e2;
 } t_bresenham;
 
+typedef struct s_read {
+    int i;
+    int j;
+    int k;
+    int fd;
+    char **seperation;
+    char **points;
+} t_read;
+
 typedef struct s_fdf
 {
     t_point **matrix;

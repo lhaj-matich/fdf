@@ -6,7 +6,7 @@
 #include <mlx.h>
 #include <stdio.h>
 
-int ft_init_fdf(t_fdf *params)
+void ft_init_fdf(t_fdf *params)
 {
     t_data img;
 
@@ -37,14 +37,18 @@ int ft_init_fdf(t_fdf *params)
 int main(int argc, char **argv)
 {
     t_fdf *data;
+    t_read *params;
     
     if (argv[1])
     {
         data = (t_fdf *)malloc(sizeof(t_fdf));
         if (!data)
             return (0);
+        params = (t_read *)malloc(sizeof(t_read));
+	    if (!params)
+		    return (0);
         ft_get_dimensions(argv[1], data);
-        ft_read_data(argv[1], data);
+        ft_read_data(argv[1], data, params);
         ft_init_fdf(data);
         ft_draw_map(data);
     }

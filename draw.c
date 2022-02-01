@@ -100,16 +100,19 @@ void    ft_draw_map(t_fdf *data)
 
     y = 0;
     data->img.img = mlx_new_image(data->mlx,960, 780);
-    data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
+    data->img.addr = mlx_get_data_addr(data->img.img, 
+    &data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
     while (y < data->height)
     {
         x = 0;
         while (x < data->width)
         {
             if (x < data->width - 1)
-                ft_draw_line(data, ft_setup_point(data ,x, y), ft_setup_point(data ,x + 1, y));
+                ft_draw_line(data, ft_setup_point(data ,x, y),
+                ft_setup_point(data ,x + 1, y));
             if (y <  data->height - 1)
-                ft_draw_line(data, ft_setup_point(data, x, y), ft_setup_point(data, x, y + 1));
+                ft_draw_line(data, ft_setup_point(data, x, y),
+                ft_setup_point(data, x, y + 1));
             x++;
         }
         y++;

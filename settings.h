@@ -4,12 +4,12 @@
 #define W_HEIGHT 780
 #define W_WIDTH 960
 
-#define KEYDOWN 65362
-#define KEYUP 65364
-#define KEYLEFT 65361
-#define KEYRIGHT 65363
-#define KEYE 113
-#define KEYQ 101
+#define KEYDOWN 125
+#define KEYUP 126
+#define KEYLEFT 123
+#define KEYRIGHT 124
+#define KEYE 14
+#define KEYQ 12
 #define KEYX 120
 #define KEYY 121
 #define KEYZ 122

@@ -8,4 +8,6 @@ typedef struct s_point {
     int z;
 } t_point;
 
+t_point *create_point(int alltitude , int color);
+
 #endif
