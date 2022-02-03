@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sn4r7 <sn4r7@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/01/30 12:23:26 by sn4r7            ###   ########.fr       */
+/*   Updated: 2022/02/03 15:55:27 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,73 +19,70 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int	ft_convert_hex(char *hex)
+int	is_hexa(char c)
 {
-	int i;
-	int value;
-	int length;
-	long long decimal;
-	long long base;
-
-	decimal = 0;
-	base = 1;
-	i = 0;
-
-	if (!hex)
-		return (0);
-	length = ft_strlen(hex);
-	i = length - 1;
-	while (i >= 0)
-	{
-		if (hex[i] >= '0' && hex[i] <= '9')
-		{
-			decimal += (hex[i] - 48) * base;
-			base *= 16;
-		}
-		else if (hex[i] >= 'A' && hex[i] <= 'F')
-		{
-			decimal += (hex[i] - 55) * base;
-			base *= 16;
-		}
-		else if (hex[i] >= 'a' && hex[i] <= 'f')
-		{
-			decimal += (hex[i] - 55) * base;
-			base *= 16;
-		}
-		i--;
-	}
-	return (decimal);
+	if (c == 'a' || c == 'A')
+		return (10);
+	else if (c == 'b' || c == 'B')
+		return (11);
+	else if (c == 'c' || c == 'C')
+		return (12);
+	else if (c == 'd' || c == 'D')
+		return (13);
+	else if (c == 'e' || c == 'E')
+		return (14);
+	else if (c == 'f' || c == 'F')
+		return (15);
+	return (c - 48);
 }
 
-int     ft_get_width(char *str, char sep)
+int	hex(char *str)
 {
-        int i;
-        int words_count;
+	int		i;
+	int		result;
 
-        i = 0;
-        words_count = 0;
-        if (str[i] != sep)
-        {
-                words_count += 1;
-                i += 1;
-        }
-        while (str[i] != '\0')
-        {
-                if (str[i] != sep && str[i] != '\n' && str[i - 1] == sep)
-                        words_count++;
-                i++;
-        }
-        return (words_count);
+	i = 0;
+	result = 0;
+	if (!str)
+		return (0);
+	while (str[i] == '0' || str[i] == 'x')
+		i++;
+	while (str[i])
+	{
+		result *= 16;
+		result = result + is_hexa(str[i]);
+		i++;
+	}
+	return (result);
+}
+
+int	ft_get_width(char *str, char sep)
+{
+	int	i;
+	int	words_count;
+
+	i = 0;
+	words_count = 0;
+	if (str[i] != sep)
+	{
+				words_count += 1;
+				i += 1;
+	}
+	while (str[i] != '\0')
+	{
+		if (str[i] != sep && str[i] != '\n' && str[i - 1] == sep)
+			words_count++;
+		i++;
+	}
+	return (words_count);
 }
 
 void	ft_get_dimensions(char *path, t_fdf *data)
 {
 	char	*line;
-	int 	fd;
-	int 	height;
-	int		width;
+	int		fd;
 
-	height = 0;
+	data->height = 0;
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	if (!line)
@@ -99,30 +96,32 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 			if (data->width != ft_get_width(line, ' '))
 				ft_app_error(2);
 		}
-		height++;
+		data->height++;
 	}
-	data->height = height;
 	close(fd);
 }
 
-void	ft_read_data(char *path, t_fdf *data, t_read *params)
+void	ft_read_data(char *path, t_fdf *data, t_read *p)
 {
-	
-	params->k = 0;
-	params->i = 0;
-	params->fd = open(path, O_RDONLY);
-	data->matrix = (t_point **)malloc(sizeof(t_point *) * ((data->height * data->width) + 1));
-	while (params->i < data->height)
+	int	size;
+
+	size = data->height * data->width;
+	p->k = 0;
+	p->i = 0;
+	p->fd = open(path, O_RDONLY);
+	data->matrix = (t_point **)malloc(sizeof(t_point *) * (size + 1));
+	while (p->i < data->height)
 	{
-		params->j = 0;
-		params->points = ft_split(get_next_line(params->fd), ' ');
-		while (params->j < data->width)
+		p->j = 0;
+		p->points = ft_split(get_next_line(p->fd), ' ');
+		while (p->j < data->width)
 		{
-			params->seperation = ft_split(params->points[params->j],',');
-			data->matrix[params->k++] = create_point(ft_atoi(params->seperation[0]), ft_convert_hex(params->seperation[1]));
-			params->j++;
+			p->sep = ft_split(p->points[p->j], ',');
+			data->matrix[p->k] = init_point(ft_atoi(p->sep[0]), hex(p->sep[1]));
+			p->j++;
+			p->k++;
 		}
-		params->i++;
+		p->i++;
 	}
-	close(params->fd);
+	close(p->fd);
 }

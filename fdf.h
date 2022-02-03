@@ -1,15 +1,27 @@
-#ifndef FDF_H
-#define FDF_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/03 15:23:13 by ochoumou          #+#    #+#             */
+/*   Updated: 2022/02/03 16:08:50 by ochoumou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "points.h"
+#ifndef FDF_H
+# define FDF_H
+
+# include "points.h"
 
 typedef struct s_dot {
-    int x;
-    int y;
-    int color;
-} t_dot;
+	int	x;
+	int	y;
+	int	color;
+}	t_dot;
 
-typedef struct	s_data {
+typedef struct s_data {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -18,42 +30,42 @@ typedef struct	s_data {
 }	t_data;
 
 typedef struct s_bresenham {
-    int dx;
-    int dy;
-    int sx;
-    int sy;
-    int err;
-    int e2;
-} t_bresenham;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+}	t_bresenham;
 
 typedef struct s_read {
-    int i;
-    int j;
-    int k;
-    int fd;
-    char **seperation;
-    char **points;
-} t_read;
+	int		i;
+	int		j;
+	int		k;
+	int		fd;
+	char	**sep;
+	char	**points;
+}	t_read;
 
 typedef struct s_fdf
 {
-    t_point **matrix;
-    void	*mlx;
+	t_point	**matrix;
+	void	*mlx;
 	void	*mlx_win;
-    int width;
-    int height;
-    int zoom;
-    int shift_x;
-    int shift_y;
-    int z;
-    int k;
-    double x_angle;
-    double y_angle;
-    double z_angle;
-    t_data img;
-} t_fdf;
+	int		width;
+	int		height;
+	int		zoom;
+	int		shift_x;
+	int		shift_y;
+	int		z;
+	int		k;
+	double	x_angle;
+	double	y_angle;
+	double	z_angle;
+	t_data	img;
+}	t_fdf;
 
-void    ft_draw_map(t_fdf *data);
-void    ft_app_error(int error_code);
+void	ft_draw_map(t_fdf *data);
+void	ft_app_error(int error_code);
 
 #endif

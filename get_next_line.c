@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ochoumou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 13:56:06 by ochoumou          #+#    #+#             */
-/*   Updated: 2021/12/16 01:42:39 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:17:29 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,19 @@
 
 char	*ft_extract_line(char **buffer_original, char **line)
 {
-	int length;
-	char *temp;
+	int		length;
+	char	*temp;
 
 	temp = NULL;
 	length = 0;
-	while ((*buffer_original)[length] != '\0' && (*buffer_original)[length] != '\n')
-		length++;	
+	while ((*buffer_original)[length] != '\0' && \
+	(*buffer_original)[length] != '\n')
+		length++;
 	if ((*buffer_original)[length] == '\n')
 	{
-		*line = ft_substr(*buffer_original,0,length + 1);
-		temp = ft_substr(*buffer_original + length + 1, 0 , ft_strlen(*buffer_original) - length);
+		*line = ft_substr(*buffer_original, 0, length + 1);
+		temp = ft_substr(*buffer_original + length + 1, 0, \
+		ft_strlen(*buffer_original) - length);
 	}
 	else
 		*line = ft_strdup(*buffer_original);
@@ -50,7 +52,8 @@ char	*ft_read_buffer(int fd, char *static_buffer)
 	while (ret != 0 && !ft_strchr(static_buffer, '\n'))
 	{
 		ret = read(fd, buffer, BUFFER_SIZE);
-		if (ret == -1){
+		if (ret == -1)
+		{
 			free(buffer);
 			return (NULL);
 		}
@@ -63,8 +66,8 @@ char	*ft_read_buffer(int fd, char *static_buffer)
 
 char	*get_next_line(int fd)
 {
-	char *line;
-	static char *static_buffer;
+	char		*line;
+	static char	*static_buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -79,16 +82,3 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-
-/*
-int main(void)
-{
-	int fd;
-
-	fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-		printf("Could not open file!!\n");
-	printf("%s",get_next_line(fd));
-	return (0);
-}
-*/
