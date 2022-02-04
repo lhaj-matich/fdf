@@ -6,35 +6,18 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 15:55:27 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:50:39 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/stat.h>
+#include <fcntl.h>
+#include "utils.h"
 #include "get_next_line.h"
 #include "libft.h"
 #include "fdf.h"
 #include "points.h"
 #include "draw.h"
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdio.h>
-
-int	is_hexa(char c)
-{
-	if (c == 'a' || c == 'A')
-		return (10);
-	else if (c == 'b' || c == 'B')
-		return (11);
-	else if (c == 'c' || c == 'C')
-		return (12);
-	else if (c == 'd' || c == 'D')
-		return (13);
-	else if (c == 'e' || c == 'E')
-		return (14);
-	else if (c == 'f' || c == 'F')
-		return (15);
-	return (c - 48);
-}
 
 int	hex(char *str)
 {

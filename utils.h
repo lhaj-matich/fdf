@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 15:17:42 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 18:00:01 by ochoumou         ###   ########.fr       */
+/*   Created: 2022/02/04 19:46:04 by ochoumou          #+#    #+#             */
+/*   Updated: 2022/02/04 20:04:20 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "settings.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-void	ft_app_error(int error_code)
-{
-	if (error_code == 1)
-		ft_putstr_fd("Invalid Map: Empty Map\n", 2);
-	else if (error_code == 2)
-		ft_putstr_fd("Invalid Map: The map is not valid\n", 2);
-	else if (error_code == 3)
-		ft_putstr_fd("Please provide a valid path (490)\n", 2);
-	exit(ERROR_STATUS);
-}
+int		ft_compare(int a, int b);
+void	ft_app_error(int error_code);
+int		is_hexa(char c);
+int		close_window(t_fdf *data);
+int		ft_get_color(int index, t_fdf *data);
+
+#endif

@@ -6,15 +6,15 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:19:10 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 18:21:05 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:04:39 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <mlx.h>
 #include "get_map_data.h"
 #include "fdf.h" 
 #include "points.h"
 #include "settings.h"
-#include <mlx.h>
 
 void	init_image(t_data *img)
 {

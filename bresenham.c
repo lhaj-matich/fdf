@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:30:15 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 17:54:13 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:51:31 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "draw.h"
 #include "points.h"
 #include "settings.h"
+#include "utils.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -26,14 +27,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 		* (data->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
-}
-
-int	ft_compare(int a, int b)
-{
-	if (a < b)
-		return (1);
-	else
-		return (-1);
 }
 
 t_bresenham	*ft_init_bresenham(t_dot *a, t_dot *b)

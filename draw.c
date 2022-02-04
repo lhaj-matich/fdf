@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:10:55 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 18:05:15 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:04:12 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "points.h"
 #include "keys.h"
 #include "settings.h"
+#include "utils.h"
 
 void	ft_zoom_map(int *x, int *y, t_fdf *data)
 {
@@ -37,21 +38,6 @@ void	ft_isometric(int *x, int *y, int z)
 	*y = (p_x + p_y) * sin(0.523599) - z;
 }
 
-int	ft_get_color(int index, t_fdf *data)
-{
-	int	color;
-	int	alltitude;
-
-	color = data->matrix[index]->color;
-	alltitude = data->matrix[index]->z;
-	if (color > 0)
-		return (color);
-	else if (alltitude > 0 && color == 0)
-		return (0x00FF0000);
-	else
-		return (0xfffffff);
-}
-
 t_dot	*ft_prep(t_fdf *data, int x, int y)
 {
 	t_dot	*point;
@@ -66,7 +52,8 @@ t_dot	*ft_prep(t_fdf *data, int x, int y)
 	if (alltitude > 0)
 		alltitude += data->z;
 	ft_zoom_map(&x, &y, data);
-	ft_isometric(&x, &y, alltitude);
+	if (data->iso == 1)
+		ft_isometric(&x, &y, alltitude);
 	ft_xrotation(&x, &y, &alltitude, data->x_angle);
 	ft_yrotation(&x, &y, &alltitude, data->y_angle);
 	ft_zrotation(&x, &y, &alltitude, data->z_angle);

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   fdf_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:19:10 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 18:15:50 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:07:23 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <mlx.h>
 #include "get_map_data.h"
 #include "fdf.h" 
 #include "points.h"
 #include "settings.h"
-#include <mlx.h>
 
 void	init_image(t_data *img)
 {
@@ -25,11 +25,19 @@ void	init_image(t_data *img)
 	img->line_length = 0;
 }
 
+void	init_rot_angles(t_fdf *params)
+{
+	params->x_angle = 0;
+	params->y_angle = 0;
+	params->z_angle = 0;
+}
+
 void	ft_init_fdf(t_fdf *params)
 {
 	t_data	img;
 
 	init_image(&img);
+	init_rot_angles(params);
 	params->img = img;
 	if (params->height > 50)
 		params->zoom = 2;
@@ -38,9 +46,7 @@ void	ft_init_fdf(t_fdf *params)
 	else if (params->height < 20)
 		params->zoom = 30;
 	params->z = 0;
-	params->x_angle = 0;
-	params->y_angle = 0;
-	params->z_angle = 0;
+	params->iso = 1;
 	if (params->height < 50)
 		params->shift_x = (W_WIDTH / 2) - (params->width * 10);
 	else if (params->height < 50)

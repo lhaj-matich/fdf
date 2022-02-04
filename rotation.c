@@ -6,12 +6,12 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:11:46 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 15:37:32 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:44:49 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
 #include <math.h>
+#include "fdf.h"
 
 void	ft_xrotation(int *x, int *y, int *z, double angle)
 {

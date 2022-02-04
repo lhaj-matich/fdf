@@ -6,16 +6,11 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 13:56:06 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 15:17:29 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:48:05 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 char	*ft_extract_line(char **buffer_original, char **line)
 {
