@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:19:10 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 18:21:05 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/03 18:15:50 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	ft_init_fdf(t_fdf *params)
 	else if (params->height < 20)
 		params->zoom = 30;
 	params->z = 0;
+	params->x_angle = 0;
+	params->y_angle = 0;
+	params->z_angle = 0;
 	if (params->height < 50)
 		params->shift_x = (W_WIDTH / 2) - (params->width * 10);
 	else if (params->height < 50)
