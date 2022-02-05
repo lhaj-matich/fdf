@@ -6,15 +6,15 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:02:43 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/03 18:06:26 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:28:45 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# define W_HEIGHT 860
-# define W_WIDTH 920
+# define W_HEIGHT 1120
+# define W_WIDTH 1250
 
 # define KEYDOWN 125
 # define KEYUP 126
@@ -27,6 +27,7 @@
 # define KEYZ 6
 # define KEYW 13
 # define KEYS 1
+# define KEYP 35
 
 # define ERROR_STATUS 1
 

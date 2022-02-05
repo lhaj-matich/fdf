@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:10:55 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/05 13:06:31 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/05 13:06:10 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,14 @@
 
 int	handle_keys(int key, t_fdf *param)
 {
-	esc_key(key, param);
+	ft_translate(key, param);
+	ft_zoom(key, param);
+	ft_rotate(key, param);
+	ft_toggle_parallel(key, param);
+	ft_increase_alltitude(key, param);
+	mlx_clear_window(param->mlx, param->mlx_win);
+	mlx_destroy_image(param->mlx, param->img.img);
+	ft_draw_map(param);
 	return (0);
 }
 
@@ -58,7 +65,11 @@ t_dot	*ft_prep(t_fdf *data, int x, int y)
 	if (alltitude > 0)
 		alltitude += data->z;
 	ft_zoom_map(&x, &y, data);
-	ft_isometric(&x, &y, alltitude);
+	if (data->iso == 1)
+		ft_isometric(&x, &y, alltitude);
+	ft_xrotation(&x, &y, &alltitude, data->x_angle);
+	ft_yrotation(&x, &y, &alltitude, data->y_angle);
+	ft_zrotation(&x, &y, &alltitude, data->z_angle);
 	ft_translate_map(&x, &y, data);
 	point->x = x;
 	point->y = y;

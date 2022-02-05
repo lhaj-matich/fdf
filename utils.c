@@ -6,10 +6,11 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:17:42 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/04 20:03:53 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/05 11:52:03 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <mlx.h>
 #include "libft.h"
 #include "settings.h"
 #include "fdf.h"

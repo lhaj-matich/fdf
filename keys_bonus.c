@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:01:39 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/04 19:44:30 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/05 13:16:57 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ void	ft_translate(int key, t_fdf *param)
 		param->shift_x -= 20;
 	else if (key == KEYRIGHT)
 		param->shift_x += 20;
+}
+
+void	ft_toggle_parallel(int key, t_fdf *param)
+{
+	if (key == KEYP)
+	{
+		if (param->iso == 1)
+			param->iso = 0;
+		else
+			param->iso = 1;
+	}
 }
 
 void	ft_zoom(int key, t_fdf *param)
@@ -59,16 +70,4 @@ void	ft_rotate(int key, t_fdf *param)
 		param->y_angle += 0.2;
 	else if (key == KEYZ)
 		param->z_angle += 0.2;
-}
-
-int	handle_keys(int key, t_fdf *param)
-{
-	ft_translate(key, param);
-	ft_zoom(key, param);
-	ft_rotate(key, param);
-	ft_increase_alltitude(key, param);
-	mlx_clear_window(param->mlx, param->mlx_win);
-	mlx_destroy_image(param->mlx, param->img.img);
-	ft_draw_map(param);
-	return (0);
 }
