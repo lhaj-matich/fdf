@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:19:10 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/08 15:51:08 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:14:41 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,6 @@ void	ft_init_fdf(t_fdf *params)
 	}
 	params->mlx = mlx_init();
 	params->mlx_win = mlx_new_window(params->mlx, W_WIDTH, W_HEIGHT, "FDF");
-}
-
-void	ft_free_matrix(t_fdf *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->matrix[i] != NULL)
-	{
-		free(data->matrix[i]);
-		data->matrix[i] = NULL;
-		i++;
-	}
 }
 
 int	main(int argc, char **argv)

@@ -6,12 +6,11 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/08 15:32:40 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:15:09 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
-#include <stdio.h>
 #include <fcntl.h>
 #include "utils.h"
 #include "get_next_line.h"
