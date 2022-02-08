@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:19:10 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/08 12:40:29 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:51:08 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ int	main(int argc, char **argv)
 		ft_read_data(argv[1], data, params);
 		ft_init_fdf(data);
 		ft_draw_map(data);
-		ft_free_matrix(data);
-		free(data);
-		free(params);
 	}
 	else
 		ft_app_error(3);

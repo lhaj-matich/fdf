@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/08 13:16:56 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:32:40 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,6 @@ int	ft_get_width(char *str, char sep)
 	return (words_count);
 }
 
-void	ft_free_pt(void	*p)
-{
-	free(p);
-	p = NULL;
-}
-
 void	free_tab(char **tab)
 {
 	int	i;
@@ -93,7 +87,7 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	data->width = ft_get_width(line, ' ');
 	while (line != NULL)
 	{
-		ft_free_pt(line);
+		free(line);
 		line = get_next_line(fd);
 		if (line)
 		{
@@ -107,18 +101,17 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 
 void	ft_read_data(char *path, t_fdf *data, t_read *p)
 {
-	int		size;
 	char	*line;
 
 	p->k = 0;
 	p->i = 0;
-	size = data->height * data->width;
+	p->size = data->height * data->width;
 	p->fd = open(path, O_RDONLY);
-	data->matrix = (t_point **)malloc(sizeof(t_point *) * (size + 1));
+	data->matrix = (t_point **)malloc(sizeof(t_point *) * (p->size + 1));
 	while (p->i < data->height)
 	{
-		line = get_next_line(p->fd);
 		p->j = 0;
+		line = get_next_line(p->fd);
 		p->points = ft_split(line, ' ');
 		while (p->j < data->width)
 		{

@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:23:13 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/04 20:00:35 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:09:47 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_read {
 	int		j;
 	int		k;
 	int		fd;
+	int		size;
 	char	**sep;
 	char	**points;
 }	t_read;

@@ -2,7 +2,7 @@ NAME = fdf
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-SRC =  bresenham.c get_map_data.c get_next_line.c get_next_line_utils.c points.c utils.c rotation.c
+SRC =  bresenham.c get_map_data.c get_next_line.c get_next_line_utils.c points.c utils.c rotation.c split.c libft.c
 SRC_MAN = fdf.c draw.c keys.c
 SRC_BONUS = fdf_bonus.c draw_bonus.c keys_bonus.c
 
@@ -12,7 +12,6 @@ OBJ_BONUS=$(SRC_BONUS:.c=.o)
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-EXT_LIB = libmacft.a
 LINK_FLAGS = -lmlx -framework OpenGL -framework AppKit -lm
 
 all: $(NAME)
