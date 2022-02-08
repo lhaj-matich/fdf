@@ -6,11 +6,12 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 15:19:20 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/04 19:50:39 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:16:56 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
+#include <stdio.h>
 #include <fcntl.h>
 #include "utils.h"
 #include "get_next_line.h"
@@ -48,8 +49,8 @@ int	ft_get_width(char *str, char sep)
 	words_count = 0;
 	if (str[i] != sep)
 	{
-				words_count += 1;
-				i += 1;
+		words_count += 1;
+		i += 1;
 	}
 	while (str[i] != '\0')
 	{
@@ -58,6 +59,25 @@ int	ft_get_width(char *str, char sep)
 		i++;
 	}
 	return (words_count);
+}
+
+void	ft_free_pt(void	*p)
+{
+	free(p);
+	p = NULL;
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
 
 void	ft_get_dimensions(char *path, t_fdf *data)
@@ -73,6 +93,7 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 	data->width = ft_get_width(line, ' ');
 	while (line != NULL)
 	{
+		ft_free_pt(line);
 		line = get_next_line(fd);
 		if (line)
 		{
@@ -86,24 +107,29 @@ void	ft_get_dimensions(char *path, t_fdf *data)
 
 void	ft_read_data(char *path, t_fdf *data, t_read *p)
 {
-	int	size;
+	int		size;
+	char	*line;
 
-	size = data->height * data->width;
 	p->k = 0;
 	p->i = 0;
+	size = data->height * data->width;
 	p->fd = open(path, O_RDONLY);
 	data->matrix = (t_point **)malloc(sizeof(t_point *) * (size + 1));
 	while (p->i < data->height)
 	{
+		line = get_next_line(p->fd);
 		p->j = 0;
-		p->points = ft_split(get_next_line(p->fd), ' ');
+		p->points = ft_split(line, ' ');
 		while (p->j < data->width)
 		{
 			p->sep = ft_split(p->points[p->j], ',');
 			data->matrix[p->k] = init_point(ft_atoi(p->sep[0]), hex(p->sep[1]));
 			p->j++;
 			p->k++;
+			free_tab(p->sep);
 		}
+		free_tab(p->points);
+		free(line);
 		p->i++;
 	}
 	close(p->fd);

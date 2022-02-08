@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:30:15 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/04 19:51:31 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:58:43 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,7 @@ void	ft_draw(t_fdf *data, t_dot *a, t_dot *b)
 			a->y += params->sy;
 		}
 	}
+	free(params);
+	free(a);
+	free(b);
 }
