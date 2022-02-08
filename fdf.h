@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:23:13 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/08 15:09:47 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:19:21 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,5 @@ typedef struct s_fdf
 }	t_fdf;
 
 void	ft_draw_map(t_fdf *data);
-void	ft_app_error(int error_code);
 
 #endif

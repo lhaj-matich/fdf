@@ -6,7 +6,7 @@
 /*   By: ochoumou <ochoumou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:19:10 by ochoumou          #+#    #+#             */
-/*   Updated: 2022/02/08 18:14:41 by ochoumou         ###   ########.fr       */
+/*   Updated: 2022/02/08 19:06:50 by ochoumou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "get_map_data.h"
 #include "fdf.h" 
 #include "points.h"
+#include "utils.h"
 #include "settings.h"
 
 void	init_image(t_data *img)
