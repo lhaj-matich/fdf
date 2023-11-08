@@ -1,32 +1,25 @@
 NAME = fdf
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
 
-SRC =  bresenham.c get_map_data.c get_next_line.c get_next_line_utils.c points.c utils.c rotation.c split.c libft.c
-SRC_MAN = fdf.c draw.c keys.c
-SRC_BONUS = fdf_bonus.c draw_bonus.c keys_bonus.c
+HEADER = fdf.h
 
+SRC = srcs/fdf.c srcs/draw.c srcs/keys.c srcs/bresenham.c srcs/get_map_data.c srcs/get_next_line.c srcs/get_next_line_utils.c \
+srcs/points.c srcs/utils.c srcs/rotation.c srcs/libft.c
 OBJ=$(SRC:.c=.o)
-OBJ_MAN=$(SRC_MAN:.c=.o)
-OBJ_BONUS=$(SRC_BONUS:.c=.o)
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-LINK_FLAGS = -lmlx -framework OpenGL -framework AppKit -lm
+LINK_FLAGS =  -lmlx -lXext -lX11 -lm -lz
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(OBJ_MAN)
-	$(CC) $(FLAGS) $(OBJ) $(OBJ_MAN) $(LINK_FLAGS) $(EXT_LIB) -o $(NAME)
-
-bonus: $(OBJ) $(OBJ_BONUS)
-	$(CC) $(FLAGS) $(OBJ) $(OBJ_BONUS) $(LINK_FLAGS) $(EXT_LIB) -o $(NAME)
+$(NAME): $(OBJ)
+	$(CC) $(FLAGS) $(OBJ) $(LINK_FLAGS) -o $(NAME)
 
 %.o : %.c
 	$(CC) $(FLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.o
+	rm -rf srcs/*.o
 
 fclean: clean
 	rm -rf $(NAME)

@@ -10,14 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "utils.h"
-#include "get_next_line.h"
-#include "libft.h"
-#include "fdf.h"
-#include "points.h"
-#include "draw.h"
+#include "../includes/fdf.h"
 
 int	hex(char *str)
 {

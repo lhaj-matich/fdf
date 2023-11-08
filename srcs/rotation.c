@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-#include "fdf.h"
+#include "../includes/fdf.h"
 
 void	ft_xrotation(int *x, int *y, int *z, double angle)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/fdf.h"
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -89,7 +89,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	len;
 	char	*join;
 	size_t	i;
-	size_t	j;
 	size_t	k;
 
 	if (!s1)
@@ -99,7 +98,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!join)
 		return (NULL);
 	i = 0;
-	j = 0;
 	k = 0;
 	while (s1[k])
 		join[i++] = s1[k++];

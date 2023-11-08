@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include "libft.h"
-#include "settings.h"
-#include "fdf.h"
+#include "../includes/fdf.h"
 
 int	ft_get_color(int index, t_fdf *data)
 {

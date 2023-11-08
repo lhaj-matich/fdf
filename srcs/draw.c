@@ -10,14 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-#include <mlx.h>
-#include "fdf.h"
-#include "draw.h"
-#include "points.h"
-#include "keys.h"
-#include "settings.h"
-#include "utils.h"
+#include "../includes/fdf.h"
 
 int	handle_keys(int key, t_fdf *param)
 {
